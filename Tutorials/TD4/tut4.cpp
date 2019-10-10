@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 class Complex {
   private:
@@ -20,13 +21,64 @@ class Complex {
     {
         std::cout << "Destroying number " << this -> real << " + " << this -> imaginary << " * i" << std::endl;
     }
+
+    double getReal() // get the real part of the number
+    {
+        return this -> real;
+    }
+
+    double getImaginary()        // get the imaginary part of the number
+    {
+        return this -> imaginary;
+    }
+
+    void setReal(double re)      // set the value of the real part
+    {
+        this -> real = re;
+    }
+
+    void setImaginary(double im) // set the value of the imaginary part
+    {
+        this -> imaginary = im;
+    }
+
+    double magnitude()           // computes the distance from the complex origin
+    {
+        return sqrt(pow(this-> real,2)+pow(this->imaginary,2));
+    }
+
+    /*
+       modifies the number so its magnitude becomes 1
+       but it stays in the same direction from the complex origin, if possible. In other
+       words, project the original number onto the unit circle. If that operation is not possible, the complex number must be left unchanged.
+    */
+    void normalize()
+    {
+        double m = magnitude();
+        if(m!=0)
+        {
+            this -> real = real/m;
+            this -> imaginary = imaginary/m;
+        }
+    }
 };
 
 int main()
 {
-    Complex c1(1,2);
-    Complex c2(0,0);
-    Complex c3(3,0);
+    Complex c1;
+    Complex c2 = Complex(3,4);
+
+    c1.normalize();
+
+    c1.setReal(c2.getReal());
+    c1.setImaginary(c2.getImaginary());
+
+    std::cout << "c1 magnitude: " << c1.magnitude() << std::endl;
+    c1.normalize();
+
+    std::cout << "c1 is: " << c1.getReal() <<
+    " + " << c1.getImaginary() << " * i" << std::endl;
+    std::cout << "c1 magnitude:" << c1.magnitude() << std::endl;
 
     return 0;
 }
